@@ -21,6 +21,9 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private CompanyRepository companyRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -29,12 +32,44 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
+		companyRepository.deleteAll();
 		departmentRepository.deleteAll();
 		employeeRepository.deleteAll();
 		
-		Department department = new Department();
+		Company company=new Company();
+		company.setCompanyName("Ver");
+		
+		
+		
+		/*Department department = new Department();
 		department.setDepartmentName("Account");
-		departmentRepository.save(department);
+		departmentRepository.save(department);*/
+		
+		
+			Department department=new Department("Account");
+			List<Department> departments=company.getDepartments();
+			departments.add(department);
+			company.setDepartments(departments);
+			departmentRepository.save(department);
+			companyRepository.save(company);
+			
+			
+			
+			Department department2=new Department("Administration");
+			List<Department> departmentss=company.getDepartments();
+			departments.add(department2);
+			company.setDepartments(departmentss);
+			departmentRepository.save(department2);
+			companyRepository.save(company);
+			
+			
+			
+			
+			
+		
+		
+		
+		
 
 		for (int i = 0; i < 4; i++) {
 			
@@ -52,24 +87,31 @@ public class Application implements CommandLineRunner {
 		departmentRepository.save(department);
 		
 		
-		Department department1 = new Department();
+		/*Department department = new Department();
 		department1.setDepartmentName("Administration");
 		departmentRepository.save(department1);
-
+*/
 		for (int i = 0; i < 4; i++) {
 			
 			
 			
 
 			Employee employee = new Employee("Jhalak", "Budathoki");
-			List<Employee> employees = department1.getEmployee();
+			List<Employee> employees = department2.getEmployee();
 			employees.add(employee);
-			department.setEmployee(employees);
+			department2.setEmployee(employees);
 			employeeRepository.save(employee);
 			
 		}
 		
-		departmentRepository.save(department1);
+		departmentRepository.save(department2);
+		
+		for(Department dp: departmentRepository.findAll())
+		{
+			System.out.println(dp);
+			
+			
+		}
 
 		/*
 		 * Person personAchilles = new Person();
